@@ -69,4 +69,30 @@ else:
     """)
 
     with st.form("cpn_form"):
-        nam
+        name = st.text_input("Full Name")
+        dob = st.date_input("Date of Birth")
+        ssn = st.text_input("Your SSN (for identity verification logging only)", placeholder="123-45-6789")
+        address = st.text_area("Address not currently associated with you")
+
+        submit = st.form_submit_button("Generate Number")
+
+        if submit:
+            if not name or not address:
+                st.error("Please complete all fields.")
+            elif not is_valid_ssn(ssn):
+                st.error("Enter a valid SSN (format: XXX-XX-XXXX).")
+            else:
+                cpn = generate_random_cpn()
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+                log_submission({
+                    "Name": name,
+                    "DOB": dob.strftime("%Y-%m-%d"),
+                    "SSN": ssn,
+                    "Address": address,
+                    "GeneratedNumber": cpn,
+                    "Timestamp": timestamp
+                })
+
+                st.success(f"Your generated number: **{cpn}**")
+                st.info("This number is NOT linked to your SSN or identity. Use responsibly.")
