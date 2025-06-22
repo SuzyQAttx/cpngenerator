@@ -6,7 +6,7 @@ from datetime import datetime
 import os
 
 LOG_FILE = "submissions_log.csv"
-ADMIN_PASSWORD = st.secrets["general”][“Block_Beater_909$”]  # from Streamlit secrets
+ADMIN_PASSWORD = st.secrets["general”]["Enter admin password"]  # from Streamlit secrets
 
 def generate_random_cpn():
     while True:
