@@ -12,7 +12,7 @@ def generate_random_cpn():
     while True:
         cpn = ''.join([str(random.randint(0, 9)) for _ in range(9)])
         if not re.match(r"^(000|666|9)", cpn):
-            return cpn  # FIXED: typo was `return can`
+            return cpn
 
 def is_valid_ssn(ssn):
     return bool(re.fullmatch(r"\d{3}-\d{2}-\d{4}", ssn))
@@ -69,25 +69,31 @@ else:
     """)
 
     with st.form("cpn_form"):
-    name = st.text_input("Full Name")
-    dob = st.text_input("Date of Birth (format: YYYY-MM-DD)")
-    ssn = st.text_input("Your SSN", placeholder="123-45-6789")
-    address = st.text_area("Address not currently associated with you")
+        name = st.text_input("Full Name")
+        dob = st.text_input("Date of Birth (format: YYYY-MM-DD)")
+        ssn = st.text_input("Your SSN", placeholder="123-45-6789")
+        address = st.text_area("Address not currently associated with you")
 
         submit = st.form_submit_button("Generate Number")
 
         if submit:
-            if not name or not address:
+            if not name or not address or not dob:
                 st.error("Please complete all fields.")
             elif not is_valid_ssn(ssn):
                 st.error("Enter a valid SSN (format: XXX-XX-XXXX).")
             else:
+                try:
+                    dob_date = datetime.strptime(dob, "%Y-%m-%d")
+                except ValueError:
+                    st.error("Invalid DOB format. Please use YYYY-MM-DD.")
+                    st.stop()
+
                 cpn = generate_random_cpn()
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
                 log_submission({
                     "Name": name,
-                    "DOB": dob.strftime("%Y-%m-%d"),
+                    "DOB": dob_date.strftime("%Y-%m-%d"),
                     "SSN": ssn,
                     "Address": address,
                     "GeneratedNumber": cpn,
