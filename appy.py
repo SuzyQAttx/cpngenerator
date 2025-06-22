@@ -56,8 +56,8 @@ if password == "Block_Beater_909$":
             csv_data = filtered_df.to_csv(index=False).encode("utf-8")
             st.download_button("📥 Download Filtered Logs as CSV", data=csv_data, file_name="filtered_logs.csv", mime="text/csv")
 
-       if admin_mode:
-    password = st.sidebar.text_input("Enter admin password", type="password")
+            if admin_mode:
+            password = st.sidebar.text_input("Enter admin password", type="password")
 
     if password == ADMIN_PASSWORD:
         st.title("📋 Admin Dashboard – Submissions Log")
