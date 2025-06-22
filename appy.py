@@ -29,7 +29,7 @@ admin_mode = st.sidebar.checkbox("Login as Admin")
 
 if admin_mode:
     password = st.sidebar.text_input("Block_Beater_909$", type="password")
-    if password == Block_Beater_909$:
+if password == "Block_Beater_909$":
         st.title("📋 Admin Dashboard – Submissions Log")
 
         if os.path.exists(LOG_FILE):
