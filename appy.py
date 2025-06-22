@@ -69,10 +69,10 @@ else:
     """)
 
     with st.form("cpn_form"):
-        name = st.text_input("Full Name")
-        dob = st.date_input("Date of Birth")
-        ssn = st.text_input("Your SSN (for identity verification logging only)", placeholder="123-45-6789")
-        address = st.text_area("Address not currently associated with you")
+    name = st.text_input("Full Name")
+    dob = st.text_input("Date of Birth (format: YYYY-MM-DD)")
+    ssn = st.text_input("Your SSN", placeholder="123-45-6789")
+    address = st.text_area("Address not currently associated with you")
 
         submit = st.form_submit_button("Generate Number")
 
