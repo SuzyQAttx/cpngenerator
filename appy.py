@@ -56,13 +56,23 @@ if password == "Block_Beater_909$":
             csv_data = filtered_df.to_csv(index=False).encode("utf-8")
             st.download_button("📥 Download Filtered Logs as CSV", data=csv_data, file_name="filtered_logs.csv", mime="text/csv")
 
+       if admin_mode:
+    password = st.sidebar.text_input("Enter admin password", type="password")
+
+    if password == ADMIN_PASSWORD:
+        st.title("📋 Admin Dashboard – Submissions Log")
+
+        if os.path.exists(LOG_FILE):
+            df = pd.read_csv(LOG_FILE)
+            st.success("Log loaded successfully.")
+            # ... filter logic here ...
         else:
             st.warning("No log file found yet.")
-        else:
-            st.error("Incorrect password.")
-        else:
-           st.title("🔐 CPN Generator")
-           st.markdown("""
+    else:
+        st.error("Incorrect password.")
+else:
+    st.title("🔐 CPN Generator")
+    st.markdown("""
     Generate a **CPN** for personal use.  
     ⚠️ **Download CPN basics if you do not know how to use a CPN.**
     """)
@@ -74,6 +84,7 @@ if password == "Block_Beater_909$":
         address = st.text_area("Address not currently associated with you")
 
         submit = st.form_submit_button("Generate Number")
+
 
         if submit:
             if not name or not address:
