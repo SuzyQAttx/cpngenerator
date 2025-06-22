@@ -58,11 +58,11 @@ if password == "Block_Beater_909$":
 
         else:
             st.warning("No log file found yet.")
-    else:
-        st.error("Incorrect password.")
-else:
-st.title("🔐 CPN Generator")
-    st.markdown("""
+        else:
+            st.error("Incorrect password.")
+        else:
+           st.title("🔐 CPN Generator")
+           st.markdown("""
     Generate a **CPN** for personal use.  
     ⚠️ **Download CPN basics if you do not know how to use a CPN.**
     """)
